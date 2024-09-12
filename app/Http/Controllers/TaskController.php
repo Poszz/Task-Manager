@@ -65,10 +65,14 @@ class TaskController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
+            'status' => 'required|in:To Do,In Progress,Done',
         ]);
 
         $task->update($request->all());
+
         return redirect()->route('tasks.index');
+
+        return response()->json($task);
     }
 
     /**

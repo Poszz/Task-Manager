@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,9 +12,11 @@
             <h1 class="text-2xl font-bold">Task Manager</h1>
         </div>
     </nav>
+    
 
     <main class="container mx-auto mt-8 px-4">
         @yield('content')
+        
     </main>
 
     <footer class="bg-gray-200 mt-8 py-4">
@@ -22,5 +24,8 @@
             &copy; 2023 Task Manager
         </div>
     </footer>
+    <div id="app">
+        <!-- This is where your Vue app will be mounted -->
+    </div>
 </body>
 </html>

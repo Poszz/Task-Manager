@@ -7,6 +7,8 @@
                 v-for="task in tasks" 
                 :key="task.id" 
                 :task="task"
+                :title="task.title"
+                :initial-status="task.status"
                 @task-updated="updateTask"
                 @task-deleted="deleteTask"
             ></task-item>
@@ -17,6 +19,7 @@
 <script>
 import Taskform from '@/components/Taskform.vue';
 import TaskItem from './TaskItem.vue';
+import Task from '@/components/Task.vue';
 import axios from 'axios';
 
 export default {
