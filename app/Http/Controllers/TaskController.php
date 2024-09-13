@@ -65,12 +65,20 @@ class TaskController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
+            'is_completed' => 'boolean',
         ]);
 
-        $task->update([]);
+        // $task->update([
+        //     'title' => $request->title,
+        //     'is_completed' => $request->has('is_completed'),
+        // ]);
+        $task->update($request->only(['title', 'is_completed']));
 
-        $task->update($request->all());
-        return redirect()->route('tasks.index');
+        return response()->json($task);
+
+        // $task->update($request->all());
+        // return redirect()->route('tasks.index')->with('success', 'Task updated succesfully');
+        // return response()->json(['success' => true]);
     }
 
     /**

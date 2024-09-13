@@ -9,6 +9,7 @@
                 :task="task"
                 @task-updated="updateTask"
                 @task-deleted="deleteTask"
+                @task-completed="toggleTaskCompletion"
             ></task-item>
         </ul>
     </div>
@@ -50,6 +51,24 @@ export default {
         },
         deleteTask(taskId) {
             this.tasks = this.tasks.filter(t => t.id !== taskId);
+        },
+        toggleTaskCompletion(task) {
+            axios.patch(`/api/tasks/${task.id}`, {
+                is_completed: task.is_completed
+            })
+            .then(response => {
+                if (response.data.success) {
+                    console.log('Task updated successfully');
+                    this.updateTask(task);
+                } else {
+                    console.error('Failed to update task');
+                    task.is_completed = !task.is_completed; // Revert the change if update failed
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                task.is_completed = !task.is_completed; // Revert the change if there was an error
+            });
         }
     }
 }

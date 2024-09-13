@@ -13,6 +13,13 @@
             <input v-model="editedTask.title" class="border p-1 mb-2 w-full">
             <textarea v-model="editedTask.description" class="border p-1 mb-2 w-full"></textarea>
             <input v-model="editedTask.due_date" type="date" class="border p-1 mb-2">
+            <input type="checkbox" :checked="task.is_completed" @change="toggleCompletion" @click.prevent>
+            {{ task.title }}
+            <select v-model="task.status" @change="updateStatus" class="border rounded p-1">
+                    <option value="not_started">Not Started</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+            </select>
             <div>
                 <button @click="saveEdit" class="bg-blue-500 text-white px-2 py-1 rounded mr-2">Save</button>
                 <button @click="cancelEdit" class="bg-gray-500 text-white px-2 py-1 rounded">Cancel</button>
@@ -60,7 +67,19 @@ export default {
                         console.error('Error deleting task:', error);
                     });
             }
+        },
+        toggleCompletion() {
+            const updatedTask = { ...this.task, is_completed: !this.task.is_completed };
+      axios.put(`/api/tasks/${this.task.id}`, updatedTask)
+        .then(response => {
+          this.task.is_completed = response.data.is_completed;
+          this.$emit('task-updated', response.data);
+        })
+        .catch(error => {
+          console.error('Error updating task completion status:', error);
+                });
         }
+
     }
 }
 </script>
