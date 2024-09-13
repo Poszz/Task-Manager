@@ -67,6 +67,8 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
         ]);
 
+        $task->update([]);
+
         $task->update($request->all());
         return redirect()->route('tasks.index');
     }
